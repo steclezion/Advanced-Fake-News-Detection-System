@@ -1,0 +1,118 @@
+Tools Used :  Tokenizer, StopWordsRemover, HashingTF, IDF
+
+1. Tokenizer
+Purpose:
+The Tokenizer splits raw text into individual words (tokens). This is a basic but essential preprocessing step in text mining, converting a sentence (string) into a list (array) of words.
+
+Code Example:
+
+python
+Copy
+from pyspark.sql import SparkSession
+from pyspark.ml.feature import Tokenizer
+
+# Initialize Spark session
+spark = SparkSession.builder.appName("TokenizerExample").getOrCreate()
+
+# Create a sample DataFrame with a 'text' column
+data = [("This is a sample news article.",),
+        ("Fake news is spreading rapidly!",),
+        ("Real news is often verified by multiple sources.",)]
+columns = ["text"]
+df_sample = spark.createDataFrame(data, columns)
+
+# Initialize the Tokenizer specifying input and output columns
+tokenizer = Tokenizer(inputCol="text", outputCol="words")
+
+# Transform the DataFrame to add a new 'words' column
+df_tokenized = tokenizer.transform(df_sample)
+
+# Display the tokenized output
+df_tokenized.select("text", "words").show(truncate=False)
+
+# Stop the Spark session for this example
+spark.stop()
+Explanation:
+
+The Tokenizer takes each row's "text" column and splits it into words based on whitespace.
+The resulting "words" column is an array of tokens, e.g., "This is a sample news article." becomes ["This", "is", "a", "sample", "news", "article."].
+2. StopWordsRemover
+Purpose:
+The StopWordsRemover filters out common words (stop words) like "is", "a", "the", etc. These words usually have little meaningful impact on text classification and are removed to reduce noise.
+
+Code Example:
+
+python
+Copy
+from pyspark.ml.feature import StopWordsRemover
+
+# Assume df_tokenized is already created as shown above
+# Initialize the StopWordsRemover, using the tokenized output as input
+remover = StopWordsRemover(inputCol="words", outputCol="filtered_words")
+
+# Transform the DataFrame to remove stop words
+df_filtered = remover.transform(df_tokenized)
+
+# Display the results
+df_filtered.select("text", "words", "filtered_words").show(truncate=False)
+Explanation:
+
+The StopWordsRemover examines the array in the "words" column and removes a predefined list of common stop words (default is in English).
+For example, ["This", "is", "a", "sample", "news", "article."] might become ["sample", "news", "article."] after removal.
+3. HashingTF
+Purpose:
+HashingTF converts a list of tokens into a fixed-length numerical feature vector using the hashing trick. This vector represents the frequency (or count) of tokens in a document.
+
+Code Example:
+
+python
+Copy
+from pyspark.ml.feature import HashingTF
+
+# Initialize HashingTF to transform the filtered words into a feature vector.
+# 'numFeatures' sets the length of the resulting feature vector.
+hashingTF = HashingTF(inputCol="filtered_words", outputCol="raw_features", numFeatures=20)
+
+# Transform the DataFrame to produce the raw feature vectors
+df_tf = hashingTF.transform(df_filtered)
+
+# Display the raw features (sparse vectors)
+df_tf.select("text", "filtered_words", "raw_features").show(truncate=False)
+Explanation:
+
+HashingTF hashes each token to a specific index in a fixed-length vector (here, of size 20 for demonstration, though in production you might use a larger size, such as 10,000).
+The output column "raw_features" is a sparse vector where each entry corresponds to the token frequency.
+This step converts text data into a numerical format that machine learning algorithms can process.
+4. IDF (Inverse Document Frequency)
+Purpose:
+The IDF transformer adjusts the raw token frequencies by reducing the weight of commonly occurring tokens and increasing the weight of rarer ones. The resulting TF-IDF (Term Frequency-Inverse Document Frequency) vector gives a better representation of the importance of each word in the document relative to the entire corpus.
+
+Code Example:
+
+python
+Copy
+from pyspark.ml.feature import IDF
+
+# Initialize the IDF transformer to scale the raw feature vectors.
+idf = IDF(inputCol="raw_features", outputCol="features")
+
+# Fit the IDF model on the data to compute the IDF weights
+idf_model = idf.fit(df_tf)
+
+# Transform the raw feature vectors into TF-IDF features
+df_tfidf = idf_model.transform(df_tf)
+
+# Display the final TF-IDF features alongside the original text
+df_tfidf.select("text", "features").show(truncate=False)
+Explanation:
+
+The IDF transformer first learns the IDF weights by scanning through the entire dataset (using fit()).
+Then, it transforms each document’s raw feature vector ("raw_features") into a TF-IDF vector ("features").
+This process enhances the representation of documents by emphasizing tokens that are less common across documents (and therefore more informative).
+Summary
+Together, these four components form a crucial text-processing pipeline in our fake news detection system:
+
+Tokenizer: Breaks down raw text into individual words.
+StopWordsRemover: Cleans the tokenized list by filtering out common, less-informative words.
+HashingTF: Converts the cleaned tokens into a numerical vector representation.
+IDF: Refines this representation by weighting tokens based on their rarity across the corpus.
