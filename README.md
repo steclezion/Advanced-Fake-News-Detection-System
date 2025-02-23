@@ -53,18 +53,13 @@ Project Stucture
 
 Usage
 
-1. Data Preprocessing:
+1. Data Preprocessing:python src/preprocessing/prepare_data.py
 
-python src/preprocessing/prepare_data.py
+2. Feature Extraction:python src/features/extract_features.py
 
-2. Feature Extraction:
-   python src/features/extract_features.py
-
-3. Model Training:
-   python src/models/train_model.py
+3. Model Training:python src/models/train_model.py
    
-4.Running Predictions:
-  python src/models/predict.py
+4.Running Predictions:python src/models/predict.py
 
   
 Data Pipeline
