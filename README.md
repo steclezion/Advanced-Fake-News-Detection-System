@@ -25,8 +25,7 @@ Copy- Python 3.8+
 Usage 
 
 # Clone the repository
-git clone https://github.com/yourusername/fake-news-detection.git
-
+git clone https://github.com/steclezion/Advanced-Fake-News-Detection-System.git
 # Install dependencies
 pip install -r requirements.txt
 
