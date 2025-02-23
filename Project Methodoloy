@@ -1,0 +1,28 @@
+Software Engineering Approach
+
+For our five-person group project, we recommend adopting an Agile Scrum methodology. This approach is well-suited for our dynamic project requirements, enabling iterative development, continuous feedback, and rapid adaptation to changes. Agile Scrum promotes collaboration, transparency, and frequent reassessment of our work, which is essential for integrating performance optimizations throughout our development cycle.
+
+Action Plan
+
+Project Breakdown and Sprint Planning:
+
+Sprint Cycles: Divide the project into multiple two-week sprints. Each sprint will focus on specific milestones such as data ingestion, preprocessing, feature extraction, model development, and performance optimization.
+Task Assignment: Allocate tasks among the five team members based on expertise, ensuring that each module is independently developed yet integrates seamlessly into the overall system.
+Performance-Driven Design:
+
+Platform Selection: Utilize PySpark as our primary platform. PySpark offers a distributed computing environment that is capable of processing large datasets rapidly, thereby reducing execution time.
+Algorithm Optimization: Emphasize the development and iterative refinement of machine learning algorithms with a focus on execution speed. Implement profiling and benchmarking at each development phase to ensure that the system achieves the fastest possible runtime.
+Parallel Processing: Leverage PySpark’s inherent ability to perform parallel computations. Optimize our code for distributed processing and ensure that our data pipelines are designed for scalability and speed.
+Continuous Integration and Testing:
+
+Automated Testing: Implement unit tests, integration tests, and performance tests to catch issues early and guarantee that each component performs efficiently.
+Continuous Integration (CI): Use CI tools (e.g., Jenkins, GitLab CI/CD) to automatically build and test our code after every commit. This ensures that performance benchmarks remain consistent as new features are added.
+Documentation and Code Reviews:
+
+Code Reviews: Conduct regular peer code reviews to maintain code quality, enforce best practices, and identify potential performance bottlenecks.
+Documentation: Maintain comprehensive documentation for each sprint deliverable, detailing design decisions, performance metrics, and integration procedures.
+Final Evaluation:
+
+Benchmarking: Evaluate the final system against key performance metrics (accuracy, precision, recall, F1-score, ROC-AUC, and execution time). Compare our solution against baseline models to ensure that our approach yields the fastest execution times while maintaining high classification performance.
+Iterative Refinement: Based on the evaluation results, plan additional sprints focused solely on performance tuning and optimization if required.
+By integrating agile practices with a performance-centric development strategy on the PySpark platform, we aim to deliver a robust and efficient Advanced Fake News Detection System that not only meets functional requirements but also optimizes execution time to be the fastest among similar solutions.
