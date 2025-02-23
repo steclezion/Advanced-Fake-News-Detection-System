@@ -18,8 +18,13 @@ Copy- Python 3.8+
 - pandas 1.3+
 - numpy 1.19+
 - scikit-learn 0.24+
-Installation
-bashCopy# Clone the repository
+  
+**Installation**
+
+
+Usage 
+
+# Clone the repository
 git clone https://github.com/yourusername/fake-news-detection.git
 
 # Install dependencies
@@ -27,8 +32,12 @@ pip install -r requirements.txt
 
 # Install PySpark
 pip install pyspark
-Project Structure
-Copy├── data/
+
+
+
+
+Project Stucture 
+├── data/
 │   ├── raw/              # Raw dataset files
 │   ├── processed/        # Processed data files
 │   └── models/           # Trained model files
@@ -41,23 +50,23 @@ Copy├── data/
 ├── tests/              # Unit tests
 ├── config/             # Configuration files
 └── requirements.txt    # Project dependencies
+
 Usage
 
-Data Preprocessing:
+1. Data Preprocessing:
 
-python Copy python src/preprocessing/prepare_data.py
+python src/preprocessing/prepare_data.py
 
-Feature Extraction:
+2. Feature Extraction:
+   python src/features/extract_features.py
 
-python Copy python src/features/extract_features.py
+3. Model Training:
+   python src/models/train_model.py
+   
+4.Running Predictions:
+  python src/models/predict.py
 
-Model Training:
-
-python Copy python src/models/train_model.py
-
-Running Predictions:
-
-pythonCopypython src/models/predict.py
+  
 Data Pipeline
 
 Text Preprocessing
